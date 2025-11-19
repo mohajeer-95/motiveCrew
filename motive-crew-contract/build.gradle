@@ -7,6 +7,7 @@ plugins {
 
 group = project.findProperty("GROUP_ID")
 version = project.findProperty("VERSION")
+def customRepoUrl = (project.findProperty("REPO_URL") ?: "").toString().trim()
 
 // Remove the "plain" from version if it exists
 version = version.replaceAll("plain", "")
@@ -26,16 +27,17 @@ configurations {
 repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
-	maven {
-         url = uri(project.findProperty("REPO_URL"))
-        allowInsecureProtocol = true 
-        credentials {
-            username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-            password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
-        }
-        metadataSources { mavenPom(); artifact() }
+	if (customRepoUrl) {
+        maven {
+	        url = uri(customRepoUrl)
+	        allowInsecureProtocol = customRepoUrl.startsWith("http://")
+	        credentials {
+	            username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+	            password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+	        }
+	        metadataSources { mavenPom(); artifact() }
+	    }
     }
-	
 }
 
 ext["jakarta-servlet.version"] = "5.0.0"
@@ -67,12 +69,14 @@ publishing {
         }
     }
     repositories {
-        maven {
-            url = uri(project.findProperty("REPO_URL"))
-            allowInsecureProtocol = true // Allow insecure HTTP
-            credentials {
-                username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-                password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+        if (customRepoUrl) {
+            maven {
+                url = uri(customRepoUrl)
+                allowInsecureProtocol = customRepoUrl.startsWith("http://") // Allow insecure HTTP when needed
+                credentials {
+                    username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                    password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+                }
             }
         }
     }
