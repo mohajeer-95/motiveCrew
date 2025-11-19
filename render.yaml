@@ -1,7 +1,6 @@
 services:
   - type: web
     name: motive-crew-backend
-    runtime: java17
+    runtime: docker
     plan: free
-    buildCommand: cd motive-crew-ws && ./gradlew build
-    startCommand: cd motive-crew-ws && ./gradlew bootRun
+    dockerfilePath: ./Dockerfile
