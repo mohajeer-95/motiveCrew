@@ -2,6 +2,7 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
+COPY motive-crew-contract/ ./motive-crew-contract/
 COPY motive-crew-ws/ ./motive-crew-ws/
 
 WORKDIR /app/motive-crew-ws
