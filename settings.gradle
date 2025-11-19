@@ -1,0 +1,8 @@
+rootProject.name = 'motive-crew'
+
+include 'motive-crew-contract'
+include 'motive-crew-ws'
+
+project(':motive-crew-contract').projectDir = new File('motive-crew-contract')
+project(':motive-crew-ws').projectDir = new File('motive-crew-ws')
+

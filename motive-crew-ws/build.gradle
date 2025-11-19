@@ -1,0 +1,124 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'maven-publish'
+}
+
+group = project.findProperty("GROUP_ID")
+version = project.findProperty("VERSION")
+
+// Remove the "plain" from version if it exists
+version = version.replaceAll("plain", "")
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven {
+        url = uri(project.findProperty("REPO_URL"))
+        allowInsecureProtocol = true
+        credentials {
+            username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+            password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+        }
+        metadataSources { mavenPom(); artifact() }
+    }
+}
+
+ext["jakarta-servlet.version"] = "5.0.0"
+
+ext {
+    set('springCloudVersion', "2024.0.0-M2")
+}
+
+dependencies {
+	
+	// implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
+	implementation 'ThirdParty:commons-lang:2.6@jar'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.mysql:mysql-connector-j:8.3.0'
+    implementation("Eskadenia.ESKATechnicalCommonLibrary.HttpUtil:CPNT-HttpUtil:3.0.4.0@jar")
+	// Temporarily commented out - requires Java 21
+	// implementation 'Eskadenia.ESKACXM:cxm-security:1.0.0.0:plain@jar'
+	implementation 'Eskadenia.ESKATechnicalCommonLibrary.eska-core-communicator:eska-core-communicator:1.0.0.0'
+
+	implementation 'org.modelmapper:modelmapper:3.1.1'
+	
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'jakarta.validation:jakarta.validation-api:3.0.0'
+	implementation 'io.jsonwebtoken:jjwt:0.12.6'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	implementation project(':motive-crew-contract')
+}
+
+tasks.named('jar') {
+    // Customize the output file name to ensure it's 'motive-crew-ws.jar' without 'plain'
+    archiveBaseName.set('motive-crew-ws')
+    archiveVersion.set('')
+    archiveClassifier.set('')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.findProperty("GROUP_ID")
+            artifactId = project.findProperty("ARTIFACT_ID")
+            version = version // Ensure version is cleaned up
+
+            // Explicitly add the jar artifact and prevent using components.java
+            artifact(tasks.named('jar').get()) // Use the customized 'jar' task
+
+            // Avoid including any other artifact (remove components.java)
+        }
+    }
+    repositories {
+        maven {
+            url = uri(project.findProperty("REPO_URL"))
+            allowInsecureProtocol = true
+            credentials {
+                username = project.findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = project.findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Customize bootJar to ensure it creates cxm-ws.jar
+tasks.named('bootJar') {
+    archiveBaseName.set('motive-crew-ws')
+    archiveVersion.set('')
+    archiveClassifier.set('')
+}

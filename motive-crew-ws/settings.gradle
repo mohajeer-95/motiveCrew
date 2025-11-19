@@ -1,0 +1,5 @@
+rootProject.name = 'motive-crew-ws'
+
+
+include 'motive-crew-contract'
+project(':motive-crew-contract').projectDir = new File('../motive-crew-contract')

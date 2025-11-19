@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+}
+
