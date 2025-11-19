@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: motive-crew-backend
+    env: java
+    plan: free
+    buildCommand: ./gradlew build
+    startCommand: ./gradlew bootRun
+    envVars:
+      - key: JAVA_VERSION
+        value: 17
+
