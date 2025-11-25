@@ -21,7 +21,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@lombok.ToString(exclude = {"payments", "expensesPaid", "eventParticipants", "notifications", "preferences", "createdEvents", "createdExpenses"})
+@lombok.ToString(exclude = {"payments", "expensesPaid", "eventParticipants", "notifications", "preferences", "createdEvents", "createdExpenses", "posts", "postLikes", "postComments"})
 public class User {
 
     @Id
@@ -47,6 +47,10 @@ public class User {
 
     @Column(length = 100)
     private String position;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @Column(name = "avatar_url", length = 500)
     private String avatarUrl;
@@ -85,6 +89,15 @@ public class User {
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<Expense> createdExpenses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PostLike> postLikes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PostComment> postComments;
 
     @PrePersist
     protected void onCreate() {

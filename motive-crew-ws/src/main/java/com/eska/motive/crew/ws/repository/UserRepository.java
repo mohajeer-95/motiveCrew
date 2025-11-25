@@ -37,5 +37,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByRole(User.UserRole role);
 
     long countByIsActiveTrue();
+
+    long countByTeamIdAndIsActiveTrue(Long teamId);
 }
 

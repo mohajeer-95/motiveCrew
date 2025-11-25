@@ -1,13 +1,14 @@
 package com.eska.motive.crew.ws.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
 
 /**
- * Web configuration for serving static files
+ * Web configuration for serving static files and CORS
  * 
  * @author Motive Crew Team
  */
@@ -22,6 +23,17 @@ public class WebConfig implements WebMvcConfigurer {
         // Map /uploads/** to the uploads directory on the filesystem
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + uploadDir + File.separator);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*") // Allow all origins for development
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization")
+                .allowCredentials(false)
+                .maxAge(3600);
     }
 }
 

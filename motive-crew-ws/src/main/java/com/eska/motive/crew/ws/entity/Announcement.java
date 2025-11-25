@@ -1,5 +1,6 @@
 package com.eska.motive.crew.ws.entity;
 
+import com.eska.motive.crew.ws.enums.AnnouncementAudience;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,17 @@ public class Announcement {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private AnnouncementAudience audience;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
@@ -38,6 +50,9 @@ public class Announcement {
     @Column(name = "is_active", nullable = false)
     @Builder.Default
     private Boolean isActive = true;
+
+    @Column(name = "expires_at")
+    private LocalDateTime expiresAt;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

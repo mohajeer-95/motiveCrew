@@ -38,5 +38,7 @@ public class SignupRequest {
     private String position;
 
     private String role; // "admin" or "member"
+
+    private Long teamId; // Team ID for the user
 }
 

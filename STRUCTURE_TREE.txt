@@ -1,0 +1,160 @@
+MotiveCrew/
+│
+├── settings.gradle
+├── build.gradle
+├── README.md
+│
+├── motive-crew-contract/              # Shared contract module
+│   ├── build.gradle
+│   ├── settings.gradle
+│   └── src/main/java/com/eska/motive/crew/contract/
+│       └── StatusCode.java
+│
+└── motive-crew-ws/                    # Main Web Service Module
+    │
+    ├── build.gradle
+    ├── gradle.properties
+    ├── gradlew
+    ├── gradlew.bat
+    ├── Dockerfile
+    │
+    ├── gradle/wrapper/
+    │   ├── gradle-wrapper.jar
+    │   └── gradle-wrapper.properties
+    │
+    ├── src/
+    │   ├── main/
+    │   │   ├── java/com/eska/motive/crew/ws/
+    │   │   │   │
+    │   │   │   ├── MotiveCrewWsApplication.java
+    │   │   │   │
+    │   │   │   ├── config/
+    │   │   │   │   ├── AppConfig.java
+    │   │   │   │   ├── ModelMapperConfig.java
+    │   │   │   │   ├── SecurityConfig.java
+    │   │   │   │   └── WebConfig.java
+    │   │   │   │
+    │   │   │   ├── controller/v1/
+    │   │   │   │   ├── AuthController.java
+    │   │   │   │   ├── DashboardController.java
+    │   │   │   │   ├── EventController.java
+    │   │   │   │   ├── ExpenseController.java
+    │   │   │   │   ├── HealthController.java
+    │   │   │   │   ├── MemberController.java
+    │   │   │   │   ├── NotificationController.java
+    │   │   │   │   ├── PollController.java
+    │   │   │   │   ├── PostController.java
+    │   │   │   │   ├── ReportController.java
+    │   │   │   │   ├── SettingsController.java
+    │   │   │   │   └── TeamController.java
+    │   │   │   │
+    │   │   │   ├── dto/
+    │   │   │   │   ├── request/
+    │   │   │   │   │   ├── ChangePasswordRequest.java
+    │   │   │   │   │   ├── CreateAnnouncementRequest.java
+    │   │   │   │   │   ├── CreateCommentRequest.java
+    │   │   │   │   │   ├── CreateEventRequest.java
+    │   │   │   │   │   ├── CreateExpenseRequest.java
+    │   │   │   │   │   ├── CreateMemberRequest.java
+    │   │   │   │   │   ├── CreatePollRequest.java
+    │   │   │   │   │   ├── CreatePostRequest.java
+    │   │   │   │   │   ├── MarkPaymentRequest.java
+    │   │   │   │   │   ├── SignupRequest.java
+    │   │   │   │   │   ├── UpdateMemberRequest.java
+    │   │   │   │   │   ├── UpdatePreferencesRequest.java
+    │   │   │   │   │   └── VotePollRequest.java
+    │   │   │   │   └── response/
+    │   │   │   │       └── UserDTO.java
+    │   │   │   │
+    │   │   │   ├── entity/
+    │   │   │   │   ├── Announcement.java
+    │   │   │   │   ├── Event.java
+    │   │   │   │   ├── EventParticipant.java
+    │   │   │   │   ├── Expense.java
+    │   │   │   │   ├── MemberPayment.java
+    │   │   │   │   ├── MonthlyCollection.java
+    │   │   │   │   ├── Notification.java
+    │   │   │   │   ├── Poll.java
+    │   │   │   │   ├── PollOption.java
+    │   │   │   │   ├── PollVote.java
+    │   │   │   │   ├── Post.java
+    │   │   │   │   ├── PostComment.java
+    │   │   │   │   ├── PostLike.java
+    │   │   │   │   ├── Team.java
+    │   │   │   │   ├── User.java
+    │   │   │   │   └── UserPreferences.java
+    │   │   │   │
+    │   │   │   ├── repository/
+    │   │   │   │   ├── AnnouncementRepository.java
+    │   │   │   │   ├── EventParticipantRepository.java
+    │   │   │   │   ├── EventRepository.java
+    │   │   │   │   ├── ExpenseRepository.java
+    │   │   │   │   ├── MemberPaymentRepository.java
+    │   │   │   │   ├── MonthlyCollectionRepository.java
+    │   │   │   │   ├── NotificationRepository.java
+    │   │   │   │   ├── PollOptionRepository.java
+    │   │   │   │   ├── PollRepository.java
+    │   │   │   │   ├── PollVoteRepository.java
+    │   │   │   │   ├── PostCommentRepository.java
+    │   │   │   │   ├── PostLikeRepository.java
+    │   │   │   │   ├── PostRepository.java
+    │   │   │   │   ├── TeamRepository.java
+    │   │   │   │   ├── UserPreferencesRepository.java
+    │   │   │   │   └── UserRepository.java
+    │   │   │   │
+    │   │   │   ├── service/
+    │   │   │   │   ├── AuthService.java
+    │   │   │   │   ├── ContributionService.java
+    │   │   │   │   ├── DashboardService.java
+    │   │   │   │   ├── EventService.java
+    │   │   │   │   ├── ExpenseService.java
+    │   │   │   │   ├── LoginService.java
+    │   │   │   │   ├── MemberService.java
+    │   │   │   │   ├── NotificationService.java
+    │   │   │   │   ├── PollService.java
+    │   │   │   │   ├── PostService.java
+    │   │   │   │   ├── ProductService.java
+    │   │   │   │   ├── ReportService.java
+    │   │   │   │   ├── SettingsService.java
+    │   │   │   │   └── TeamService.java
+    │   │   │   │
+    │   │   │   ├── exception/
+    │   │   │   │   ├── ExceptionHandlerAdvice.java
+    │   │   │   │   ├── InternalErrorException.java
+    │   │   │   │   ├── ResourceNotFoundException.java
+    │   │   │   │   └── ValidationException.java
+    │   │   │   │
+    │   │   │   ├── filter/
+    │   │   │   │   └── JwtAuthenticationFilter.java
+    │   │   │   │
+    │   │   │   ├── util/
+    │   │   │   │   └── JWTUtil.java
+    │   │   │   │
+    │   │   │   ├── utility/
+    │   │   │   │   └── Utility.java
+    │   │   │   │
+    │   │   │   ├── validation/
+    │   │   │   │   ├── LoginRequestValidator.java
+    │   │   │   │   └── Validator.java
+    │   │   │   │
+    │   │   │   └── enums/
+    │   │   │       └── PollStatus.java
+    │   │   │
+    │   │   └── resources/
+    │   │       ├── application.properties
+    │   │       ├── application-dev.properties
+    │   │       ├── application-qa.properties
+    │   │       ├── banner.txt
+    │   │       ├── db/migration/
+    │   │       │   ├── V1__create_tables.sql
+    │   │       │   └── V2__insert_initial_data.sql
+    │   │       ├── static/
+    │   │       └── templates/
+    │   │
+    │   └── test/java/com/eska/cxm/uiws/
+    │       └── CxmUiWsApplicationTests.java
+    │
+    └── uploads/
+        └── avatars/
+
+

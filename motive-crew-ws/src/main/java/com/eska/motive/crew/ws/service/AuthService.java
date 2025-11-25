@@ -14,6 +14,7 @@ import com.eska.motive.crew.ws.exception.ResourceNotFoundException;
 import com.eska.motive.crew.ws.exception.ValidationException;
 import com.eska.motive.crew.ws.repository.UserRepository;
 import com.eska.motive.crew.ws.repository.UserPreferencesRepository;
+import com.eska.motive.crew.ws.repository.TeamRepository;
 import com.eska.motive.crew.ws.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class AuthService {
 
     @Autowired
     private UserPreferencesRepository preferencesRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Autowired
     private JWTUtil jwtUtil;
@@ -106,6 +110,13 @@ public class AuthService {
                     ? User.UserRole.ADMIN 
                     : User.UserRole.MEMBER;
 
+            // Get team if teamId is provided
+            com.eska.motive.crew.ws.entity.Team team = null;
+            if (request.getTeamId() != null) {
+                team = teamRepository.findById(request.getTeamId())
+                        .orElse(null); // Team not found, but don't fail signup
+            }
+
             User user = User.builder()
                     .name(request.getName())
                     .email(request.getEmail())
@@ -113,6 +124,7 @@ public class AuthService {
                     .passwordHash(passwordEncoder.encode(request.getPassword()))
                     .role(role)
                     .position(request.getPosition())
+                    .team(team)
                     .isActive(true)
                     .joinedDate(LocalDate.now())
                     .build();
