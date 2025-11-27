@@ -55,7 +55,8 @@ public class SecurityConfig {
 					"/api/v1/health/**",             // Health check endpoints
 					"/api/v1/auth/login",            // User login endpoint
 					"/api/v1/auth/signup",           // User registration
-					"/uploads/**",                   // Uploaded files (avatars, etc.)
+					"/uploads/**",                   // Uploaded files (avatars, etc.) - static serving
+					"/api/v1/uploads/**",            // Uploaded files via API endpoint (avatars, announcements)
 					"/actuator/**",                  // Spring Boot Actuator
 					"/error",                        // Error pages
 					"/swagger-ui/**",                // Swagger UI (if enabled)
